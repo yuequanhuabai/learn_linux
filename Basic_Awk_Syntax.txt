@@ -17,6 +17,7 @@ awk -Fs '{action}' input-file
 
 
 
+<<<<<<< HEAD
    awk   -F: '/mail/ {print $1}' /etc/passwd
 
    -F:          指定分隔符为冒号切割文件行为单个string串；
@@ -90,3 +91,5 @@ mail
 
 
 
+=======
+>>>>>>> f39235c8e72f2d6a6f8532503dbb9b543a74ac8e
