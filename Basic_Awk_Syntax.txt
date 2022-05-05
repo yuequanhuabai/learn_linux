@@ -1,0 +1,92 @@
+基本的awk语法：
+
+awk -Fs '/pattern/ {action}'  input-file
+or
+awk -Fs '{action}' input-file
+
+-F  参数指定字段分隔符，如果你没有指定，则以空格作为分隔符。
+
+    模式匹配和处理操作的行为应该放在单引号中
+
+    模式匹配是可选的，如果你不指定，awk会处理输入文件流的所有记录；
+    如果你指定了，awk则会处理仅匹配的记录。
+
+    {action} 这个是awk程序的命令，可以是一个或者多个。操作指令应该用大括号括起来。
+
+    input-file  被awk命令处理的文件。
+
+
+
+   awk   -F: '/mail/ {print $1}' /etc/passwd
+
+   -F:          指定分隔符为冒号切割文件行为单个string串；
+   /mail/       指定模式匹配,即正则表达式匹配包含mail的string串；
+   {print $1}   打印打印包含该行的第一个 string串；
+   /etc/passwd  读取要匹配的文件。
+
+
+
+   Awk 命令分割文件(使用脚本处理文件用 -f 参数，后面为指定的awk脚本处理命令)
+
+   awk -Fs -f myscript.awk input-file
+
+   awk -f myscript.awk input-file
+
+
+awk 程序结构（BEGIN,body,END block)
+
+    BEGIN { awk-command }
+
+    切忌： 
+        BEGIN block仅执行一次，在执行body block之前；
+        1.begin block 是打印report headers和初始化变量的地方；
+        2.你可以在begin block中写一个或多个awk命令；
+        3.关键字BEGIN 必须大写；
+        4.BEGIN block 是可选的；
+
+   Body Block
+        Syntax of body block：
+        /pattern/ {action}
+        body block对输入文件中的每一行执行一次。
+        1. 如果input-file有10条记录，body block命令就会执行10次。
+        2. body block中没有关键字，相对BEGIN block的BEGIN关键字而言
+
+
+    END Block
+        END { awk-command }
+        END block仅在程序结束时执行一次，
+        即在awk完成执行input-file中的所有行的body block之后执行一次；
+        1.END block是一个打印report footer和做清理操作的地方；
+        2.你可以在END block中放一个或多个awk命令；
+        3.关键字END应该被指定，并注意大写；
+        4.END block也是可选的；
+
+awk程序的执行流程：
+==================================================================
+begin block；
+
+while（line.read != !EOF）{
+    Read a line;
+    execute awk commands in the body block on the line
+    (# Repeat for the next line until end of the input file)
+}
+
+end block;
+==================================================================
+
+
+awk 'BEGIN {FS=":"; print "---header---"} \
+/mail/ {print $1} \
+END {print "--footer---"}' /etc/passwd
+
+结果：
+---header---
+mail
+---footer---
+
+
+
+
+
+
+
