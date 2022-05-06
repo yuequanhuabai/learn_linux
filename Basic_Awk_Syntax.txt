@@ -17,7 +17,6 @@ awk -Fs '{action}' input-file
 
 
 
-<<<<<<< HEAD
    awk   -F: '/mail/ {print $1}' /etc/passwd
 
    -F:          指定分隔符为冒号切割文件行为单个string串；
@@ -76,6 +75,8 @@ end block;
 ==================================================================
 
 
+
+一、
 awk 'BEGIN {FS=":"; print "---header---"} \
 /mail/ {print $1} \
 END {print "--footer---"}' /etc/passwd
@@ -85,11 +86,96 @@ END {print "--footer---"}' /etc/passwd
 mail
 ---footer---
 
+注意： 如果有多行命令，可以使用 \ 分隔开来；
+
+
+可以把这些命令弄成一个可执行文件：
+例如 myscript.awk
+
+二、
+chmod a+x myscript.awk
+
+三、
+也可以忽略掉BEGIN和END
+awk -F: '{print $1}' /etc/passwd
+
+四、
+awk -F: 'BEGIN {printf "username\n------\n"} \
+{print $1} \
+END {print "------" }' /etc/passwd
+
+五、
+awk -F: 'BEGIN {print "UID"} {print $3}' /etc/passwd
+
+
+仅仅用BEGIN block也是可以的
+
+awk 'BEGIN {print "Hello World!"}'
+
+
+awk 处理多文件
+
+awk 'BEGIN {FS=":"; print "---header---"} \
+/mail/ {print $1} \
+END {print "---footer---"}' /etc/passwd /etc/group
+
+
+print 命令如果不指定具体参数，则会打印当前行的所有数据
+$0 参数默认是整行记录；
+awk '{print}' employee.txt
+awk '{print $0}' employee.txt
+这两条语句的效果相同
+
+awk -F: {print} employee.txt
+
+awk命令的字段分隔符 可以用单独的单引号，双引号，或者不用引号，直接写在-F参数后面
+
+awk -F ',' '{print $2}' employee.txt
+
+awk -F "," '{print $2}' employee.txt
+
+awk -F, '{print $2 }' employee.txt
+
+读取文件，打印第二个和第三个参数；
+awk -F ',' 'BEGIN \
+{print "---------\nName\tTitle\n--------"} \
+{print $2,"\t",$3} \
+END {print "-----------";} employee.txt
+
+从文件中搜索包含Manager关键字的行，打印该行的第二，第三个参数（参数分隔用逗号）
+
+awk -F ',' '/Manager/ {print $2,$3}' employee.txt
+
+打印在文件中以102开头的字符串行；
+awk -F ',' '/^102/ {print "Emp id 102 is",$2}' employee.txt
+
+
+Chapter 9 .   awk 内置变量
+默认字段分隔符为空格(可以是一个或多个空格)，可以省略不写，也可以用-F参数指定，还可以使用内置变量FS指定
+awk -F ',' '{print $2,$3}' employee.txt
+
+awk 'BEGIN {FS=","} {print $2,$3}' employee.txt
+
+如果文件中有不同的字段分隔符，例如employee-multiple-fs.txt文件
+我们可以这样指定：
+FS(Field Separator)的全称是IFS(Input Field Separator)
+awk 'BEGIN {FS="[,:%"} {print $2,$3}' employee-multiple-fs.txt
+
+OFS(Output Field Separator) awk的默认OFS是空格
+
+awk -F ',' 'BEGIN {OFS=":"} {print $2,$3}' employee.txt
+
+默认的OFS：空格
+awk 'BEGIN {print "test1","test2"}' 
+如果没有冒号(comma)分隔连个参数，则表示连默认OFS也不使用
+awk 'BEGIN {print "test1" "test2"}'
+
+
+RS(Record Separator)记录分隔符，代表一条记录，awk处理的基本单就是一条记录，如果不指定，则是一行
+
+awk -F, '{print $2}' employee-one-line.txt
+
+awk -F, 'BEGIN {RS=":"} {print $2}' employee-one-line.txt
 
 
 
-
-
-
-=======
->>>>>>> f39235c8e72f2d6a6f8532503dbb9b543a74ac8e
