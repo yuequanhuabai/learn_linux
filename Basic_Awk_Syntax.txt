@@ -177,5 +177,49 @@ awk -F, '{print $2}' employee-one-line.txt
 
 awk -F, 'BEGIN {RS=":"} {print $2}' employee-one-line.txt
 
+IFS 可以简写为FS，输入行内分隔符，默认空格； OFS 输出行内分隔符，默认空格；
+IRS 可以简写为RS 输入行分隔符，默认为new line(换行)； ORS是输出行分隔符
+ 
+awk 'BEGIN {FS=","; ORS="\n---\n";} {print $2,$3}' employee.txt
+
+awk 'BEGIN {FS=","; OFS="\n";ORS="\n---\n"} {print $2,$3}' employee.txt
+
+NR  (Number of Records)
+
+awk 'BEGIN {FS=","} {print "The",NR,"Row EmpId is",$1} END{print "Total rows is ",NR}' employee.txt
+
+FILENAME - Current File Name
+
+
+读取标准输入内容：
+stdin
+
+awk '{print "Last Name:" $2 print "FileName:",FILENAME}
+输入大于两个字符串，默认用空格区分；该程序会打印第二个字符串，文件名没有参数会打印“-” 参数
+
+echo "John Doe" | awk '{print "Last Name:",$2 print "FileName:",FILENAME}'
+
+awk 需要输入处理的文件，如果awk命令后面没有处理的文件，则会从stdin获取数据
+
+NR 
+
+awk 'BEGIN {FS=","} {print FILENAME ":record Number",NR,"is",$1;} \
+END{print "Total Number of Records:",NR} \
+employee.txt employee-multiple-fs.txt
+
+FNR
+
+awk 'BEGIN {FS=","}\
+{print FILENAME ":record Number",FNR,"is",$1 } \
+END {print "Total number of records:",NR}' \
+employee.txt employee-multiple-fs.txt
+
+
+
+
+
+
+
+
 
 
