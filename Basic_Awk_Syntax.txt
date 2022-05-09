@@ -230,7 +230,84 @@ awk '{print -$1}' negative.txt
 
 awk -F ',' '{$4--; print $4}' employee-sal.txt
 
+~ 的用法；
+~  Match operator 
+!~ No Match operator
+== full match 
 
+Awk 条件语句和循环
+
+if(conditional-expression)
+    action
+
+如果有多个行为
+if(conditional-expression){
+    action1;
+    action2;
+}
+
+awk if-else 语句：
+
+if(conditional-expression)
+    action1;
+else
+    action2;
+
+Ternary Operator (三木表达式)
+conditional-expression ? action1:action2;
+
+awk 'ORS=NR%2?",":"\n"' items.txt
+
+while 循环；
+while(condition)
+actions
+
+do-While 循环；
+do
+action
+while(condition)
+
+for循环
+for(initialization;condition;increment/decrement)
+actions
+
+awk 'BEGIN {while(1) print "forever"}'
+死循环；
+although forever loops are used in process control or operating system applications
+
+
+Awk Associative Arrays (awk数组)
+
+awk数组基本语法：
+arrayname[string]=value
+
+awk数组的索引值总是字符串，即使你给它传递了数字，它也会默认转换为字符串；
+item[101]="HD Camcorder"
+item["101"]="HD Camcorder"
+
+print item[101]
+x=item[105]
+
+如果你引用的数据数组索引不存在，awk会自动在该索引下创建该元素，并分配null值。
+
+使用循环遍历数组：
+for(var in arrayname)
+actions;
+
+删除awk数组元素：
+delete arrayname[index]
+
+for(var in array)
+delete array[var]
+
+在GAWK中，delete array 可以删除该数组的所有元素。
+
+在awk多维数组中，当你不将索引封装在引号中时，awk将使用一个默认值为"\034"的下标分隔符；
+
+item[1,2] --> item["1\0342"]
+
+可以通过内置变量SUBSEP修改默认的分隔符
+   SUBSEP=":"; 即可把默认分隔符修改为:(冒号)
 
 
 
