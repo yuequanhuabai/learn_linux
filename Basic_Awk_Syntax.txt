@@ -311,3 +311,27 @@ item[1,2] --> item["1\0342"]
 
 
 
+Additional Awk Commands (額外的awk命令)
+printf 更好用的打印
+syntax： printf "print format",variable1,variable2,etc
+
+\n  new line
+\t  Tab
+\v  vertical Tab
+\b  backspace
+\r  Carriage Return
+\f  form Feed
+
+
+Printf Format Specifiers
+s             string
+c             single Character
+d             decimal
+e             exponential Floating point
+f             fixed floating point
+g             uses either e or f depending on which is smaller for the given input
+o             Octal
+x             Hexadecimal
+%             Prints the percentage symbol
+
+
