@@ -1,0 +1,29 @@
+rpm -ivh
+i --> install
+v --> verbose 详情
+h --> hash  进度条
+
+rpm -e --nodeps  软件包(有依赖关系强制卸载)
+
+
+yum  安装包管理
+
+yum 
+
+y  --> 对所有提问呢都回答“yes”
+
+yum  
+install
+remove
+
+修改yum源：
+/etc/yum.repos.d/
+用其它可用源(例如：CentOS6-163.repo)替代CentOS-Base.repo
+然后 yum clean all
+yum makecache
+
+yum list | grep firefox
+yum -y install firefox.x86_64
+
+FILENAME  NR  NF
+文件名   行号  列数(根据分隔符切割后的列数)
